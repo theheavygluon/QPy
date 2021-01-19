@@ -3,12 +3,18 @@ import numpy as np
 import scipy
 from scipy import integrate
 from scipy.integrate import quad
+from scipy.misc import derivative as derivative
 
+PI = np.pi 
 PLANCK = 6.6*(10**(-34))
+H = PLANCK
+HBAR = H/(2*PI)
 C = 299792458
 E = 2.71828
 KAPPA = 1.38064852*(10**(-23))
-PI = np.pi 
+
+
+
 inf = np.inf
 
 def sin(x):
@@ -47,7 +53,7 @@ class Solver():
             freq = (e + phi)/PLANCK
             return freq
     
-        def bindingE(e,phi):
+        def bindingE(e,f):
             workfunc = PLANCK*f - e
             return workfunc
 
@@ -266,36 +272,27 @@ def nParam(func):
     return val 
 
 #Wavefunction features
-#Ideas: Normalize (), Find probability between 2 points, Operators, Expectation 
-#For multi-dim normalization, change the architecture in a way where the conditions are based on the number of variables in the lambda function 
-#Add useless variables instead of list
 
-#To do list: Normalize complex functions, expectation values, sigma and shit 
+#Ideas: Operators, Expectation values, Sigma,
+#(Commutation???), 
+# Create psiPlot() in Plotter class which allows one to plot psi, psi^2, etc
+
+
 
 class psiTools():
     
 
-    def normalize(psi, x1 = -inf, x2 = inf, y1 = -inf, y2 = inf, z1 = -inf, z2 = inf, funcType='real'):
-        if funcType.lower() == 'real':
-            if nParam(psi) == 1:
-                a = integrate.quad(lambda x: psi(x)**2, x1, x2)
-                return 1/np.sqrt(float(a[0]))
-            if nParam(psi) == 2:
-                a = integrate.dblquad(lambda x,y: psi(x,y)**2, x1,x2,y1,y2)
-                return 1/np.sqrt(float(a[0]))
-            if nParam(psi) == 3: 
-                a = integrate.tplquad(lambda x,y,z: psi(x,y,z)**2, x1,x2,y1,y2,z1,z2)
-                return 1/np.sqrt(float(a[0]))
-        if funcType.lower() == 'complex':
-            if nParam(psi) == 1:
-                a = integrate.quad(lambda x: psi(x)**2, x1, x2)
-                return 1/np.sqrt(float(a[0]))
-            if nParam(psi) == 2:
-                a = integrate.dblquad(lambda x,y: psi(x,y)**2, x1,x2,y1,y2)
-                return 1/np.sqrt(float(a[0]))
-            if nParam(psi) == 3: 
-                a = integrate.tplquad(lambda x,y,z: psi(x,y,z)**2, x1,x2,y1,y2,z1,z2)
-                return 1/np.sqrt(float(a[0]))
+    def normalize(psi, x1 = -inf, x2 = inf, y1 = -inf, y2 = inf, z1 = -inf, z2 = inf):
+        if nParam(psi) == 1:
+            a = integrate.quad(lambda x: abs(psi(x)*np.conj(psi(x))), x1, x2)
+            return 1/np.sqrt(float(a[0]))
+        if nParam(psi) == 2:
+            a = integrate.dblquad(lambda x,y: abs(psi(x,y)*np.conj(psi(x,y))), x1,x2,y1,y2)
+            return 1/np.sqrt(float(a[0]))
+        if nParam(psi) == 3: 
+            a = integrate.tplquad(lambda x,y,z: abs(psi(x,y,z)*np.conj(psi(x,y,z))), x1,x2,y1,y2,z1,z2)
+            return 1/np.sqrt(float(a[0]))
+
 
 
     def prob(psi,lBound, rBound, lNorm=-inf, rNorm=inf):
@@ -312,6 +309,16 @@ class psiTools():
         if nParam(psi) == 3:
             a = integrate.tplquad(lambda x,y,z: (b*psi(x,y,z))**2,lBound[0], rBound[0], lBound[1], rBound[1], lBound[2], rBound[2])
         return a[0]
-
-
     
+    def x(psi):
+        func = lambda x: x*psi(x)
+        return func
+
+    def p(psi):
+        func = lambda x: -HBAR*derivative(psi(x))*1j
+        return func
+
+
+#    class expVal:
+        
+

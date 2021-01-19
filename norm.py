@@ -3,6 +3,8 @@ import scipy
 from scipy.integrate import quad
 from scipy import integrate
 import numpy as np
+from scipy.misc import derivative as yo
+
 
 PLANCK = 6.6*(10**(-34))
 C = 299792458
@@ -126,7 +128,20 @@ def blackBody(temp,lim1=0,lim2="default", law="planck", title='Power Density Dis
                     plt.plot(x,y, label='Temp = ' + str(temp) + "K")
         
         return plt.title(title), plt.xlabel("Wavelength (nm)"), plt.ylabel("Power Density (10^13)"), plt.legend(), plt.show()
-'''
+
+
+
+def normy(psi, x1 = -inf, x2 = inf, y1 = -inf, y2 = inf, z1 = -inf, z2 = inf):
+    if nParam(psi) == 1:
+        a = integrate.quad(lambda x: abs(psi(x)*np.conj(psi(x))), x1, x2)
+        return 1/np.sqrt(float(a[0]))
+    if nParam(psi) == 2:
+        a = integrate.dblquad(lambda x,y: abs(psi(x,y)*np.conj(psi(x,y))), x1,x2,y1,y2)
+        return 1/np.sqrt(float(a[0]))
+    if nParam(psi) == 3: 
+        a = integrate.tplquad(lambda x,y,z: abs(psi(x,y,z)*np.conj(psi(x,y,z))), x1,x2,y1,y2,z1,z2)
+        return 1/np.sqrt(float(a[0]))
+
 
 def normal(psi, a = -inf, b = inf):
     bro = quad(lambda x: psi(x)**2,a,b)
@@ -136,7 +151,7 @@ def normal(psi, a = -inf, b = inf):
 
 normal(lambda x: exp(-x**2))
 
-'''
+
 
 x = [i for i in np.linspace(0,2200, 1000000)]
 
@@ -149,3 +164,11 @@ plt.plot(x,planck)
 plt.plot(x,rJeans)
 
 plt.show()
+
+
+
+
+
+
+
+
