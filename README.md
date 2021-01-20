@@ -8,5 +8,7 @@ This version is not nearly complete and this is simply the first launch with aro
 # Modules used
 
 -Numpy
+
 -Scipy
+
 -Matplotlib
