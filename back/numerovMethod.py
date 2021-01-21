@@ -1,3 +1,4 @@
+#Note that I do not take full credit for this script as it is a slight modification to a script which could be found here: https://github.com/FelixDesrochers/Numerov
 import numpy as np
 from matplotlib import pyplot as plt
 from matplotlib import cm as cm
