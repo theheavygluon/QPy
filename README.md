@@ -1,5 +1,5 @@
 # QPy
- QPy is a python module that aims at making many quantum mechanical computations/simulations operable in no more than a line of code. For example, the tise.solve() feature solves the Time-Independent Schrödinger Equation, plots the Wavefunction and prints the eigenvalues (something that would usually take a few hundred lines of code to do). This numerical package is useful for anyone taking or teaching QM1 as the syntax barely requires a learning curve and makes rigorous problems solved in seconds!
+ QPy is a python module that aims at making many quantum mechanical computations/simulations operable in no more than a line of code. For example, the tise.solve() feature solves the Time-Independent Schrödinger Equation, plots the Wavefunction and prints the eigenvalues (something that would usually take a few hundred lines of code to do). This numerical package is useful for anyone taking QM1 as the syntax barely requires a learning curve and makes rigorous problems solved in seconds!
 
 
 # State of the project
