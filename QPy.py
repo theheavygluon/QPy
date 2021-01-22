@@ -347,5 +347,7 @@ class psiTools():
             return print(" This Feature is under Construction")
   
 '''    
-    
+
+#When done with all position stuff, do p, px, py,pz, p2d, p3d, lx, ly, lz, Tx, Ty, Tz, T2d, T3d, H, Hx, Hy, Hz, H2d, H3d
+
    
