@@ -309,16 +309,43 @@ class psiTools():
         if nParam(psi) == 3:
             a = integrate.tplquad(lambda x,y,z: (b*psi(x,y,z))**2,lBound[0], rBound[0], lBound[1], rBound[1], lBound[2], rBound[2])
         return a[0]
-    
-    def x(psi):
-        func = lambda x: x*psi(x)
-        return func
-
-    def p(psi):
-        func = lambda x: -HBAR*derivative(psi(x))*1j
-        return func
-
-
-#    class expVal:
+'''
+    def x(psi, lBound = -inf, rBound = inf):
+        a = psiTools.normalize(lambda x: psi(x), lBound, rBound)
+        xOp = lambda x: a*x*psi(x)
+        return xOp
+   
+    class x():
         
-
+        def expVal(psi):
+            return print(" This Feature is under Construction")
+        def sigma(psi):
+            return print(" This Feature is under Construction")
+    
+    def y(psi, lBound = -inf, rBound = inf):
+        a = psiTools.normalize(lambda y: psi(y), lBound, rBound)
+        yOp = lambda x: a*y*psi(y)
+        return yOp
+   
+    class y():
+        
+        def expVal(psi):
+            return print(" This Feature is under Construction")
+        def sigma(psi):
+            return print(" This Feature is under Construction")
+        
+    def z(psi, lBound = -inf, rBound = inf):
+        a = psiTools.normalize(lambda z: psi(z), lBound, rBound)
+        xOp = lambda z: a*z*psi(x)
+        return xOp
+   
+    class z():
+        
+        def expVal(psi):
+            return print(" This Feature is under Construction")
+        def sigma(psi):
+            return print(" This Feature is under Construction")
+  
+'''    
+    
+   
