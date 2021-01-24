@@ -1,4 +1,5 @@
-#Demo of some features
+#Demo of some features. 
+#This scripts demonstate a total of 10 features that. You can reduce this to 7 lines of code!
 
 from QPy import *
 from QPy import Solver as QSolve
@@ -36,3 +37,9 @@ plt.legend()
 plt.xlabel('$x$')
 plt.ylabel('$Prob_{(-0.5,x)}$')
 plt.show()
+
+#Postion Operators, Expectation and Sigma Values 
+print("psi(x) = x*exp(-x^2)")
+print("Position operator at x = 1: " + str(psi.hat.x(lambda x: x*exp(-x**2))(1)))
+print("<x> = " + str(psi.x.expVal(lambda x: x*exp(-x**2))))
+print("sigma_x = " + str(psi.x.sigma(lambda x: x*exp(-x**2))))
