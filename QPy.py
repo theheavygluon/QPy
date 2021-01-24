@@ -309,44 +309,55 @@ class psiTools():
         if nParam(psi) == 3:
             a = integrate.tplquad(lambda x,y,z: (b*psi(x,y,z))**2,lBound[0], rBound[0], lBound[1], rBound[1], lBound[2], rBound[2])
         return a[0]
-'''
-    def x(psi, lBound = -inf, rBound = inf):
-        a = psiTools.normalize(lambda x: psi(x), lBound, rBound)
-        xOp = lambda x: a*x*psi(x)
-        return xOp
-   
-    class x():
-        
-        def expVal(psi):
-            return print(" This Feature is under Construction")
-        def sigma(psi):
-            return print(" This Feature is under Construction")
     
-    def y(psi, lBound = -inf, rBound = inf):
-        a = psiTools.normalize(lambda y: psi(y), lBound, rBound)
-        yOp = lambda x: a*y*psi(y)
-        return yOp
-   
+    def x(wf, lBound = -inf, rBound = inf):
+    a = psi.normalize(wf, lBound, rBound)
+    pos = lambda x: a*x*wf(x)
+    return pos
+
+
+    class x():
+
+            def expVal(psi, lBound = -inf, rBound = inf):
+                xFunc = lambda x: x(psi, lBound, rBound)
+                exp = quad(lambda x: np.conj(psi(x))*xFunc(psi, lBound,rBound), lBound, rBound)
+                return exp
+
+            def sigma(psi):
+                return print(" This Feature is under Construction")
+
+    def y(wf, lBound = -inf, rBound = inf):
+        a = psi.normalize(wf, lBound, rBound)
+        pos = lambda y: a*y*wf(y)
+        return pos
+
     class y():
-        
-        def expVal(psi):
-            return print(" This Feature is under Construction")
-        def sigma(psi):
-            return print(" This Feature is under Construction")
-        
-    def z(psi, lBound = -inf, rBound = inf):
-        a = psiTools.normalize(lambda z: psi(z), lBound, rBound)
-        xOp = lambda z: a*z*psi(x)
-        return xOp
-   
+
+            def expVal(psi, lBound = -inf, rBound = inf):
+                yFunc = lambda y: y(psi, lBound, rBound)
+                exp = quad(lambda y: np.conj(psi(y))*yFunc(psi, lBound,rBound), lBound, rBound)
+                return exp
+
+            def sigma(psi):
+                return print(" This Feature is under Construction")
+
+            
+    def z(wf, lBound = -inf, rBound = inf):
+        a = psi.normalize(wf, lBound, rBound)
+        pos = lambda z: a*z*wf(z)
+        return pos
+
+    
     class z():
-        
-        def expVal(psi):
-            return print(" This Feature is under Construction")
-        def sigma(psi):
-            return print(" This Feature is under Construction")
-  
-'''    
+
+            def ezpVal(psi, lBound = -inf, rBound = inf):
+                zFunc = lambda z: z(psi, lBound, rBound)
+                exp = quad(lambda z: np.conj(psi(z))*zFunc(psi, lBound,rBound), lBound, rBound)
+                return exp
+
+            def sigma(psi):
+                return print(" This Feature is under Construction")
+            
 
 #When done with all position stuff, do p, px, py,pz, p2d, p3d, lx, ly, lz, Tx, Ty, Tz, T2d, T3d, H, Hx, Hy, Hz, H2d, H3d
 
