@@ -1,9 +1,8 @@
 from matplotlib import pyplot as plt 
 import numpy as np 
-import scipy
+import scipy 
 from scipy import integrate
 from scipy.integrate import quad
-from scipy.misc import derivative as derivative
 
 PI = np.pi 
 PLANCK = 6.6*(10**(-34))
@@ -13,7 +12,10 @@ C = 299792458
 E = 2.71828
 KAPPA = 1.38064852*(10**(-23))
 
-
+def der(f):
+    h = 1/1000000
+    slope = lambda x: (f(x+ h) - f(x))/h
+    return slope
 
 inf = np.inf
 
@@ -294,7 +296,6 @@ class psiTools():
             return 1/np.sqrt(float(a[0]))
 
 
-
     def prob(psi,lBound, rBound, lNorm=-inf, rNorm=inf):
         if nParam(psi) == 1:
             b = psiTools.normalize(lambda x: psi(x), lNorm,rNorm)
@@ -309,56 +310,54 @@ class psiTools():
         if nParam(psi) == 3:
             a = integrate.tplquad(lambda x,y,z: (b*psi(x,y,z))**2,lBound[0], rBound[0], lBound[1], rBound[1], lBound[2], rBound[2])
         return a[0]
-    
-    def x(wf, lBound = -inf, rBound = inf):
-    a = psi.normalize(wf, lBound, rBound)
-    pos = lambda x: a*x*wf(x)
-    return pos
 
+    class hat():
+        
+        def x(psi, lBound = -inf, rBound = inf):
+            a = psiTools.normalize(psi, lBound, rBound)
+            pos = lambda x: a*x*psi(x)
+            return pos
+        
+        def y(psi, lBound = -inf, rBound = inf):
+            a = psiTools.normalize(psi, lBound, rBound)
+            pos = lambda y: a*y*psi(y)
+            return pos
+         
+        def z(psi, lBound = -inf, rBound = inf):
+            a = psiTools.normalize(psi, lBound, rBound)
+            pos = lambda z: a*z*psi(z)
+            return pos
+        #Momentum operator and shit
 
     class x():
-
+            
             def expVal(psi, lBound = -inf, rBound = inf):
-                xFunc = lambda x: x(psi, lBound, rBound)
-                exp = quad(lambda x: np.conj(psi(x))*xFunc(psi, lBound,rBound), lBound, rBound)
-                return exp
-
-            def sigma(psi):
-                return print(" This Feature is under Construction")
-
-    def y(wf, lBound = -inf, rBound = inf):
-        a = psi.normalize(wf, lBound, rBound)
-        pos = lambda y: a*y*wf(y)
-        return pos
+                a = psiTools.normalize(psi, lBound, rBound)
+                exp = quad(lambda x: (a**2)*np.conj(psi(x))*x*psi(x), lBound, rBound)
+                return exp[0]
+            def sigma(psi, lBound = -inf, rBound = inf):
+                return print('This feature is under construction')
 
     class y():
-
-            def expVal(psi, lBound = -inf, rBound = inf):
-                yFunc = lambda y: y(psi, lBound, rBound)
-                exp = quad(lambda y: np.conj(psi(y))*yFunc(psi, lBound,rBound), lBound, rBound)
-                return exp
-
-            def sigma(psi):
-                return print(" This Feature is under Construction")
-
             
-    def z(wf, lBound = -inf, rBound = inf):
-        a = psi.normalize(wf, lBound, rBound)
-        pos = lambda z: a*z*wf(z)
-        return pos
-
+            def expVal(psi, lBound = -inf, rBound = inf):
+                a = psiTools.normalize(psi, lBound, rBound)
+                exp = quad(lambda y: (a**2)*np.conj(psi(y))*y*psi(y), lBound, rBound)
+                return exp[0]
+            def sigma(psi, lBound = -inf, rBound = inf):
+                return print('This feature is under construction')
     
     class z():
-
-            def expVal(psi, lBound = -inf, rBound = inf):
-                zFunc = lambda z: z(psi, lBound, rBound)
-                exp = quad(lambda z: np.conj(psi(z))*zFunc(psi, lBound,rBound), lBound, rBound)
-                return exp
-
-            def sigma(psi):
-                return print(" This Feature is under Construction")
             
+            def expVal(psi, lBound = -inf, rBound = inf):
+                a = psiTools.normalize(psi, lBound, rBound)
+                exp = quad(lambda z: (a**2)*np.conj(psi(z))*z*psi(z), lBound, rBound)
+                return exp[0]
+            def sigma(psi, lBound = -inf, rBound = inf):
+                return print('This feature is under construction')
 
-#When done with all position stuff, do p, px, py,pz, p2d, p3d, lx, ly, lz, Tx, Ty, Tz, T2d, T3d, H, Hx, Hy, Hz, H2d, H3d
+    #Momentum Classes and Shit
+    #Expectation Value Function 
+    #Solve
+        
 
-   
