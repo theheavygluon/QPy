@@ -350,7 +350,7 @@ class psiTools():
     
     class z():
 
-            def ezpVal(psi, lBound = -inf, rBound = inf):
+            def expVal(psi, lBound = -inf, rBound = inf):
                 zFunc = lambda z: z(psi, lBound, rBound)
                 exp = quad(lambda z: np.conj(psi(z))*zFunc(psi, lBound,rBound), lBound, rBound)
                 return exp
