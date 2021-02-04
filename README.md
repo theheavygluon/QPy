@@ -3,9 +3,17 @@
 
 
 # State of the project
-This version is not nearly complete and this is simply the first launch with around 4 (fairly incomplete) features: Plotter (which plots some algebraic QM equations), Solver (which solves some algebraic QM equations), tise (which solves the 1D time independant schrodinger eqn for a specific V(x) using the numerov method), and psiTools (which is a feature that allows several wavefunction-related operations such as normalization, probability calculation, expectation value solver and much more). 
+The first version includes 4 main features: QSolve, which solves a few algebraic QM-related eqns, QPlot, which plots a few algebraic eqns, tise, which solves the 1D Time Independant Schrodinger Equation and psiTools, which allows one to make a few wavefunction-related calculations such as normalization, finding probability, expectation values, uncertainty, etc.
 
-I am currently working on integrating Quantum operators and many statistical quantities that could be obtained by using quantum operators. Examples include expecation values, variance and standard deviations, etc. This should hopefully be done by tomorrow.
+
+This is how you import each feature:
+
+from QPy import Solver as QSolve
+from QPy import Plotter as QPlot
+from QPy import tise 
+from QPy import psiTools as psi
+
+Demos are available on test.py
 
 # Modules used
 
