@@ -16,9 +16,15 @@ def der(f):
     h = 1/1000000
     slope = lambda x: (f(x+ h) - f(x))/h
     return slope
+def derivative(psi):
+    h = 1e-11
+    slope = lambda x: (psi(x+h)-psi(x))/h
+    return slope
 
 inf = np.inf
 
+def sqrt(x):
+    return x**0.5
 def sin(x):
     return np.sin(x)
 def cos(x):
@@ -235,8 +241,6 @@ class Plotter():
         return plt.title(title), plt.xlabel("Wavelength (nm)"), plt.ylabel("Power Density (10^13)"), plt.legend(), plt.show()
 
 #Time Independent Schrodinger Equation
-#Things to do
-#Make specific functions like "infSquare()" and "Constant Potential"
 
 class tise:
     def solve(potential, E_level, alg='numerov'):
@@ -273,11 +277,6 @@ def nParam(func):
     val = func.__code__.co_argcount
     return val 
 
-#Wavefunction features
-
-#Ideas: Operators, Expectation values, Sigma,
-#(Commutation???), 
-# Create psiPlot() in Plotter class which allows one to plot psi, psi^2, etc
 
 
 
@@ -327,7 +326,44 @@ class psiTools():
             a = psiTools.normalize(psi, lBound, rBound)
             pos = lambda z: a*z*psi(z)
             return pos
-        #Momentum operator and shit
+        
+        def x2(psi, lBound = -inf, rBound = inf):
+            a = psiTools.normalize(psi, lBound, rBound)
+            pos = lambda x: a*(x**2)*psi(x)
+            return pos
+        
+        def y2(psi, lBound = -inf, rBound = inf):
+            a = psiTools.normalize(psi, lBound, rBound)
+            pos = lambda y: a*(y**2)*psi(y)
+            return pos
+         
+        def z2(psi, lBound = -inf, rBound = inf):
+            a = psiTools.normalize(psi, lBound, rBound)
+            pos = lambda z: a*(z**2)*psi(z)
+            return pos
+        
+        def p(psi, lBound = -inf, rBound = inf):
+            a = psiTools.normalize(psi, lBound, rBound)
+            momentum = derivative(lambda x:-HBAR*a*psi(x)*1j)
+            return momentum
+
+        def px(psi, lBound = -inf, rBound = inf):
+            a = psiTools.normalize(psi, lBound, rBound)
+            momentum = derivative(lambda x:-HBAR*a*psi(x)*1j)
+            return momentum
+        
+        def py(psi, lBound = -inf, rBound = inf):
+            a = psiTools.normalize(psi, lBound, rBound)
+            momentum = derivative(lambda x:-HBAR*a*psi(x)*1j)
+            return momentum
+
+        def pz(psi, lBound = -inf, rBound = inf):
+            a = psiTools.normalize(psi, lBound, rBound)
+            momentum = derivative(lambda x:-HBAR*a*psi(x)*1j)
+            return momentum
+        
+        #def p2d():
+        #def p3d():
 
     class x():
             
@@ -335,8 +371,14 @@ class psiTools():
                 a = psiTools.normalize(psi, lBound, rBound)
                 exp = quad(lambda x: (a**2)*np.conj(psi(x))*x*psi(x), lBound, rBound)
                 return exp[0]
+            
             def sigma(psi, lBound = -inf, rBound = inf):
-                return print('This feature is under construction')
+                a = psiTools.normalize(psi, lBound, rBound)
+                expX = quad(lambda x: (a**2)*np.conj(psi(x))*x*psi(x), lBound, rBound)
+                expX2 = quad(lambda x: (a**2)*np.conj(psi(x))*(x**2)*psi(x), lBound, rBound)
+                var = expX2[0] - expX[0]**2
+                return sqrt(var)
+
 
     class y():
             
@@ -345,7 +387,11 @@ class psiTools():
                 exp = quad(lambda y: (a**2)*np.conj(psi(y))*y*psi(y), lBound, rBound)
                 return exp[0]
             def sigma(psi, lBound = -inf, rBound = inf):
-                return print('This feature is under construction')
+                a = psiTools.normalize(psi, lBound, rBound)
+                expX = quad(lambda y: (a**2)*np.conj(psi(y))*y*psi(y), lBound, rBound)
+                expX2 = quad(lambda y: (a**2)*np.conj(psi(y))*(y**2)*psi(y), lBound, rBound)
+                var = expX2[0] - expX[0]**2
+                return sqrt(var)
     
     class z():
             
@@ -354,10 +400,107 @@ class psiTools():
                 exp = quad(lambda z: (a**2)*np.conj(psi(z))*z*psi(z), lBound, rBound)
                 return exp[0]
             def sigma(psi, lBound = -inf, rBound = inf):
-                return print('This feature is under construction')
+                a = psiTools.normalize(psi, lBound, rBound)
+                expX = quad(lambda z: (a**2)*np.conj(psi(z))*z*psi(z), lBound, rBound)
+                expX2 = quad(lambda z: (a**2)*np.conj(psi(z))*(z**2)*psi(z), lBound, rBound)
+                var = expX2[0] - expX[0]**2
+                return sqrt(var)
+   
 
-    #Momentum Classes and Shit
-    #Expectation Value Function 
-    #Solve
+
+    class x2():
+            
+            def expVal(psi, lBound = -inf, rBound = inf):
+                a = psiTools.normalize(psi, lBound, rBound)
+                exp = quad(lambda x: (a**2)*np.conj(psi(x))*(x**2)*psi(x), lBound, rBound)
+                return exp[0]
+            def sigma(psi, lBound = -inf, rBound = inf):
+                a = psiTools.normalize(psi, lBound, rBound)
+                expX = quad(lambda x: (a**2)*np.conj(psi(x))*(x**2)*psi(x), lBound, rBound)
+                expX2 = quad(lambda x: (a**2)*np.conj(psi(x))*(x**4)*psi(x), lBound, rBound)
+                var = expX2[0] - expX[0]**2
+                return sqrt(var)
+
+    class y2():
+            
+            def expVal(psi, lBound = -inf, rBound = inf):
+                a = psiTools.normalize(psi, lBound, rBound)
+                exp = quad(lambda y: (a**2)*np.conj(psi(y))*(y**2)*psi(y), lBound, rBound)
+                return exp[0]
+            def sigma(psi, lBound = -inf, rBound = inf):
+                a = psiTools.normalize(psi, lBound, rBound)
+                expX = quad(lambda y: (a**2)*np.conj(psi(y))*(y**2)*psi(y), lBound, rBound)
+                expX2 = quad(lambda y: (a**2)*np.conj(psi(y))*(y**4)*psi(y), lBound, rBound)
+                var = expX2[0] - expX[0]**2
+                return sqrt(var)
+    
+    class z2():
+            
+            def expVal(psi, lBound = -inf, rBound = inf):
+                a = psiTools.normalize(psi, lBound, rBound)
+                exp = quad(lambda z: (a**2)*np.conj(psi(z))*(z**2)*psi(z), lBound, rBound)
+                return exp[0]
+            def sigma(psi, lBound = -inf, rBound = inf):
+                a = psiTools.normalize(psi, lBound, rBound)
+                expX = quad(lambda z: (a**2)*np.conj(psi(z))*(z**2)*psi(z), lBound, rBound)
+                expX2 = quad(lambda z: (a**2)*np.conj(psi(z))*(z**4)*psi(z), lBound, rBound)
+                var = expX2[0] - expX[0]**2
+                return sqrt(var)
+
+
+    class p():
+
+        def expVal(psi, lBound = -inf, rBound = inf):
+            a = psiTools.normalize(psi, lBound, rBound)
+            exp = quad(lambda x: abs((a**2)*np.conj(psi(x))*derivative(lambda x:-HBAR*psi(x)*1j)), lBound, rBound)
+            return exp[0]
+
+        def sigma(psi, lBound = -inf, rBound = inf):
+            a = psiTools.normalize(psi, lBound, rBound)
+            expX = quad(lambda x: (a**2)*np.conj(psi(x))**derivative(lambda x:-HBAR*psi(x)*1j), lBound, rBound)
+            expX2 = quad(lambda x: (a**2)*np.conj(psi(x))*(x**4)**derivative(lambda x:-HBAR*(psi(x)**2)*1j), lBound, rBound)
+            var = expX2[0] - expX[0]**2
+            return sqrt(var)
+
+    class px():
         
+        def expVal(psi, lBound = -inf, rBound = inf):
+            a = psiTools.normalize(psi, lBound, rBound)
+            exp = quad(lambda x: abs((a**2)*np.conj(psi(x))*derivative(lambda x:-HBAR*psi(x)*1j)), lBound, rBound)
+            return exp[0]
+        
+        def sigma(psi, lBound = -inf, rBound = inf):
+            a = psiTools.normalize(psi, lBound, rBound)
+            expX = quad(lambda x: (a**2)*np.conj(psi(x))**derivative(lambda x:-HBAR*psi(x)*1j), lBound, rBound)
+            expX2 = quad(lambda x: (a**2)*np.conj(psi(x))*(x**4)**derivative(lambda x:-HBAR*(psi(x)**2)*1j), lBound, rBound)
+            var = expX2[0] - expX[0]**2
+            return sqrt(var)
+
+    class py():
+        
+        def expVal(psi, lBound = -inf, rBound = inf):
+            a = psiTools.normalize(psi, lBound, rBound)
+            exp = quad(lambda x: abs((a**2)*np.conj(psi(x))*derivative(lambda x:-HBAR*psi(x)*1j)), lBound, rBound)
+            return exp[0]
+            
+            def sigma(psi, lBound = -inf, rBound = inf):
+                a = psiTools.normalize(psi, lBound, rBound)
+                expX = quad(lambda x: (a**2)*np.conj(psi(x))**derivative(lambda x:-HBAR*psi(x)*1j), lBound, rBound)
+                expX2 = quad(lambda x: (a**2)*np.conj(psi(x))*(x**4)**derivative(lambda x:-HBAR*(psi(x)**2)*1j), lBound, rBound)
+                var = expX2[0] - expX[0]**2
+                return sqrt(var)
+
+    class p():
+        
+        def expVal(psi, lBound = -inf, rBound = inf):
+            a = psiTools.normalize(psi, lBound, rBound)
+            exp = quad(lambda x: abs((a**2)*np.conj(psi(x))*derivative(lambda x:-HBAR*psi(x)*1j)), lBound, rBound)
+            return exp[0]
+            
+            def sigma(psi, lBound = -inf, rBound = inf):
+                a = psiTools.normalize(psi, lBound, rBound)
+                expX = quad(lambda x: (a**2)*np.conj(psi(x))**derivative(lambda x:-HBAR*psi(x)*1j), lBound, rBound)
+                expX2 = quad(lambda x: (a**2)*np.conj(psi(x))*(x**4)**derivative(lambda x:-HBAR*(psi(x)**2)*1j), lBound, rBound)
+                var = expX2[0] - expX[0]**2
+                return sqrt(var)
 
