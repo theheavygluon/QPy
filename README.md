@@ -9,11 +9,8 @@ The first version includes 4 main features: QSolve, which solves a few algebraic
 This is how you import each feature:
 
 from QPy import Solver as QSolve
-
 from QPy import Plotter as QPlot
-
 from QPy import tise 
-
 from QPy import psiTools as psi
 
 
